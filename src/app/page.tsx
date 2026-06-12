@@ -1,3 +1,47 @@
+// Inside src/app/page.tsx
+
+import { useSearchParams } from 'next/navigation'; // Add this import at the top
+
+export default function BeatDaOddsOS() {
+  const searchParams = useSearchParams();
+  const userRole = searchParams.get('role') || 'admin'; // Defaults to admin for testing
+  const [tab, setTab] = useState(userRole === 'artist' ? 'roster' : 'insights');
+
+  return (
+    <div className="flex h-screen bg-black text-white overflow-hidden font-sans selection:bg-white selection:text-black">
+      
+      {/* SIDEBAR */}
+      <aside className="w-64 border-r border-zinc-900 bg-[#050505] flex flex-col p-6 z-20">
+        {/* ... Logo Section ... */}
+        
+        <nav className="flex-1 space-y-1">
+          {/* HIDE INSIGHTS FROM ARTISTS (OPTIONAL) */}
+          {userRole === 'admin' && (
+            <MenuBtn icon={<TrendingUp size={18}/>} label="Label Insights" active={tab === 'insights'} onClick={() => setTab('insights')} />
+          )}
+
+          <MenuBtn icon={<Users size={18}/>} label={userRole === 'admin' ? "Artist Roster" : "My Profile"} active={tab === 'roster'} onClick={() => setTab('roster')} />
+          
+          {userRole === 'admin' && (
+            <MenuBtn icon={<Music size={18}/>} label="Global Catalog" active={tab === 'catalog'} onClick={() => setTab('catalog')} />
+          )}
+
+          <MenuBtn icon={<Calendar size={18}/>} label="Studio Sessions" active={tab === 'studio'} onClick={() => setTab('studio')} />
+          
+          {/* ARTISTS SEE "MY PAYOUTS" INSTEAD OF "FINANCE HUB" */}
+          <MenuBtn icon={<CreditCard size={18}/>} label={userRole === 'admin' ? "Finance Hub" : "My Payouts"} active={tab === 'finance'} onClick={() => setTab('finance')} />
+          
+          <MenuBtn icon={<ExternalLink size={18}/>} label="Quick Links" active={tab === 'links'} onClick={() => setTab('links')} />
+        </nav>
+
+        {/* ... Profile Section ... */}
+      </aside>
+
+      {/* ... Rest of your Main UI code ... */}
+    </div>
+  );
+}
+
 "use client";
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
