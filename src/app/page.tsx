@@ -1,3 +1,11 @@
+// Inside src/app/page.tsx
+import { addArtist, logTransaction, getDashboardData } from "./actions";
+
+// Inside your component, you can now call these:
+const handleSignArtist = async (name: string) => {
+  await addArtist(name);
+  // The page will automatically refresh with the new data
+};
 "use client";
 import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
